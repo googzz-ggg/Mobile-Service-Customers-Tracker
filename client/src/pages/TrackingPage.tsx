@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, CheckCircle2, Clock, AlertCircle, Download, MessageCircle } from "lucide-react";
 import { useRoute } from "wouter";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { QRCodeSVG } from "qrcode.react";
 import MessagingInterface from "@/components/MessagingInterface";
 import RepairTimeline from "@/components/RepairTimeline";
@@ -31,6 +33,7 @@ const STAGE_COLORS: Record<string, string> = {
 };
 
 export default function TrackingPage() {
+  const { t, language, dir } = useLanguage();
   const [, params] = useRoute("/track/:trackingCode");
   const trackingCode = params?.trackingCode || "";
 
@@ -51,10 +54,10 @@ export default function TrackingPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center" dir={dir}>
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-accent mx-auto mb-4" />
-          <p className="text-foreground/70">Loading your repair status...</p>
+          <p className="text-foreground/70">{language === 'ar' ? 'جاري تحميل حالة الإصلاح...' : 'Loading your repair status...'}</p>
         </div>
       </div>
     );
@@ -62,17 +65,17 @@ export default function TrackingPage() {
 
   if (error || !job) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center" dir={dir}>
         <Card className="glass-card-lg max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Tracking Code Not Found</CardTitle>
+            <CardTitle className="text-destructive">{t('deviceNotFound')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-foreground/70 mb-4">
-              We couldn't find a repair with the code: <span className="font-mono">{trackingCode}</span>
+              {language === 'ar' ? 'لم نتمكن من العثور على إصلاح برمز: ' : 'We couldn\'t find a repair with the code: '}<span className="font-mono">{trackingCode}</span>
             </p>
             <p className="text-sm text-foreground/50">
-              Please check your tracking code and try again. If you received a QR code or tracking link, make sure you're using the correct one.
+              {language === 'ar' ? 'يرجى التحقق من رمز التتبع الخاص بك والمحاولة مرة أخرى.' : 'Please check your tracking code and try again. If you received a QR code or tracking link, make sure you\'re using the correct one.'}
             </p>
           </CardContent>
         </Card>
@@ -89,15 +92,18 @@ export default function TrackingPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir={dir}>
       {/* Header */}
       <div className="border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Moga Repair Tracking</h1>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-4">
+                <h1 className="text-3xl font-bold text-foreground mb-2">Moga {t('trackRepair')}</h1>
+                <LanguageSwitcher />
+              </div>
               <p className="text-foreground/60">
-                Tracking Code: <span className="font-mono text-accent">{trackingCode}</span>
+                {t('trackingCode')}: <span className="font-mono text-accent">{trackingCode}</span>
               </p>
             </div>
             <Badge className={`${STAGE_COLORS[job.currentStage]} border w-fit`}>
@@ -116,31 +122,31 @@ export default function TrackingPage() {
             {/* Device Info Card */}
             <Card className="glass-card-lg">
               <CardHeader>
-                <CardTitle>Device Information</CardTitle>
+                <CardTitle>{t('deviceModel')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-foreground/60 mb-1">Device Type</p>
+                    <p className="text-sm text-foreground/60 mb-1">{t('deviceModel')}</p>
                     <p className="text-lg font-semibold text-foreground">{job.deviceType}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-foreground/60 mb-1">Issue</p>
+                    <p className="text-sm text-foreground/60 mb-1">{t('issue')}</p>
                     <p className="text-lg font-semibold text-foreground">{job.issueDescription}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border/50">
                   <div>
-                    <p className="text-sm text-foreground/60 mb-1">Estimated Completion</p>
+                    <p className="text-sm text-foreground/60 mb-1">{t('estimatedCompletion')}</p>
                     <p className="text-lg font-semibold text-accent">
                       {estimatedDays !== null ? (
                         estimatedDays > 0 ? (
-                          `${estimatedDays} days`
+                          `${estimatedDays} ${language === 'ar' ? 'أيام' : 'days'}`
                         ) : (
-                          "Today"
+                          language === 'ar' ? 'اليوم' : 'Today'
                         )
                       ) : (
-                        "TBD"
+                        language === 'ar' ? 'قيد التحديد' : 'TBD'
                       )}
                     </p>
                   </div>
@@ -202,8 +208,8 @@ export default function TrackingPage() {
             {/* QR Code Card */}
             <Card className="glass-card-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Quick Access</CardTitle>
-                <CardDescription>Share this QR code to track your repair</CardDescription>
+                <CardTitle className="text-lg">{t('qrCode')}</CardTitle>
+                <CardDescription>{language === 'ar' ? 'شارك هذا الرمز لتتبع إصلاحك' : 'Share this QR code to track your repair'}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center gap-4">
                 <div className="bg-white p-4 rounded-lg" data-qr-container="true">
@@ -243,8 +249,8 @@ export default function TrackingPage() {
                     }
                   }}
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download QR Code
+                  <Download className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                  {t('download')}
                 </Button>
               </CardContent>
             </Card>
@@ -252,27 +258,27 @@ export default function TrackingPage() {
             {/* Status Summary */}
             <Card className="glass-card-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Status Summary</CardTitle>
+                <CardTitle className="text-lg">{language === 'ar' ? 'ملخص الحالة' : 'Status Summary'}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-foreground/60">Created</span>
+                    <span className="text-foreground/60">{language === 'ar' ? 'تم الإنشاء' : 'Created'}</span>
                     <span className="text-foreground font-medium">
-                      {new Date(job.createdAt).toLocaleDateString()}
+                      {new Date(job.createdAt).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-foreground/60">Last Updated</span>
+                    <span className="text-foreground/60">{language === 'ar' ? 'آخر تحديث' : 'Last Updated'}</span>
                     <span className="text-foreground font-medium">
-                      {new Date(job.updatedAt).toLocaleDateString()}
+                      {new Date(job.updatedAt).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}
                     </span>
                   </div>
                   {job.completedAt && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-foreground/60">Completed</span>
+                      <span className="text-foreground/60">{language === 'ar' ? 'تم الإنجاز' : 'Completed'}</span>
                       <span className="text-green-300 font-medium">
-                        {new Date(job.completedAt).toLocaleDateString()}
+                        {new Date(job.completedAt).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}
                       </span>
                     </div>
                   )}
@@ -283,15 +289,15 @@ export default function TrackingPage() {
             {/* Contact Info */}
             <Card className="glass-card-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Need Help?</CardTitle>
+                <CardTitle className="text-lg">{language === 'ar' ? 'هل تحتاج مساعدة؟' : 'Need Help?'}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-foreground/70">
-                  Use the messaging interface above to communicate with our technicians directly.
+                  {language === 'ar' ? 'استخدم واجهة الرسائل أعلاه للتواصل مع فنيينا مباشرة.' : 'Use the messaging interface above to communicate with our technicians directly.'}
                 </p>
                 <Button variant="outline" className="w-full" size="sm">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Send Message
+                  <MessageCircle className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                  {t('sendMessage')}
                 </Button>
               </CardContent>
             </Card>
