@@ -206,7 +206,7 @@ export default function TrackingPage() {
                 <CardDescription>Share this QR code to track your repair</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center gap-4">
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg" data-qr-container="true">
                   <QRCodeSVG
                     value={`${window.location.origin}/track/${trackingCode}`}
                     size={200}
@@ -219,12 +219,27 @@ export default function TrackingPage() {
                   size="sm"
                   className="w-full"
                   onClick={() => {
-                    const qrCanvas = document.querySelector("canvas");
-                    if (qrCanvas) {
-                      const link = document.createElement("a");
-                      link.href = qrCanvas.toDataURL();
-                      link.download = `repair-tracking-${trackingCode}.png`;
-                      link.click();
+                    const qrContainer = document.querySelector('[data-qr-container="true"]');
+                    if (qrContainer) {
+                      const svg = qrContainer.querySelector('svg');
+                      if (svg) {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const svgData = new XMLSerializer().serializeToString(svg);
+                        const img = new Image();
+                        img.onload = () => {
+                          if (ctx) {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                            const link = document.createElement('a');
+                            link.href = canvas.toDataURL('image/png');
+                            link.download = `repair-tracking-${trackingCode}.png`;
+                            link.click();
+                          }
+                        };
+                        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+                      }
                     }
                   }}
                 >

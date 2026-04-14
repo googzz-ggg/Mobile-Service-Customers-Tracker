@@ -18,6 +18,7 @@ import {
   listAllFeedback,
   createNotification,
   getNotificationsByJobId,
+  deleteNotification,
   getRepairStagesByJobId,
   getAverageCustomerSatisfaction,
   getJobsByStatus,
@@ -453,6 +454,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ notificationId: z.number() }))
       .mutation(async ({ input }) => {
+        await deleteNotification(input.notificationId);
         return { success: true };
       }),
   }),

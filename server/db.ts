@@ -316,6 +316,17 @@ export async function getNotificationsByJobId(jobId: number) {
   return result;
 }
 
+export async function deleteNotification(notificationId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db
+    .delete(notifications)
+    .where(eq(notifications.id, notificationId));
+
+  return result;
+}
+
 // ===== REPAIR STAGE HELPERS =====
 
 export async function getRepairStagesByJobId(jobId: number) {
