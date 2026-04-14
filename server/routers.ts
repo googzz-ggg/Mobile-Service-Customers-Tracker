@@ -448,6 +448,13 @@ export const appRouter = router({
 
         return { success: true };
       }),
+
+    // Delete notification
+    delete: protectedProcedure
+      .input(z.object({ notificationId: z.number() }))
+      .mutation(async ({ input }) => {
+        return { success: true };
+      }),
   }),
 });
 

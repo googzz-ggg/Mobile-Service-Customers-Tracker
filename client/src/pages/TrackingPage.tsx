@@ -10,6 +10,9 @@ import { QRCodeSVG } from "qrcode.react";
 import MessagingInterface from "@/components/MessagingInterface";
 import RepairTimeline from "@/components/RepairTimeline";
 import FeedbackForm from "@/components/FeedbackForm";
+import NotificationFeed from "@/components/NotificationFeed";
+import TechnicianNotes from "@/components/TechnicianNotes";
+import CostBreakdown from "@/components/CostBreakdown";
 
 const STAGE_ICONS: Record<string, React.ReactNode> = {
   Received: <CheckCircle2 className="w-5 h-5" />,
@@ -141,18 +144,25 @@ export default function TrackingPage() {
                       )}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-sm text-foreground/60 mb-1">Estimated Cost</p>
-                    <p className="text-lg font-semibold text-foreground">
-                      {job.costEstimate ? `$${job.costEstimate}` : "TBD"}
-                    </p>
-                  </div>
                 </div>
               </CardContent>
             </Card>
 
+            {/* Cost Breakdown */}
+            <CostBreakdown
+              estimatedCost={job.costEstimate}
+              finalCost={undefined}
+              status={job.currentStage}
+            />
+
+            {/* Notifications */}
+            <NotificationFeed jobId={job.id} />
+
             {/* Repair Timeline */}
             <RepairTimeline stages={stages || []} currentStage={job.currentStage} />
+
+            {/* Technician Notes */}
+            {stages && <TechnicianNotes notes={stages} />}
 
             {/* Messaging Interface */}
             <MessagingInterface jobId={job.id} trackingCode={trackingCode} />

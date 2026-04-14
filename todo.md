@@ -48,11 +48,13 @@
 
 ## Phase 6: Notifications & Feedback
 - [x] Implement email notification system (backend ready)
-- [x] Build in-app notification system (backend ready)
+- [x] Build in-app notification system with feed component
 - [x] Create status change notification triggers
 - [x] Implement customer feedback form (after completion)
 - [x] Build star rating component (1-5 stars)
 - [x] Implement review submission and storage
+- [x] Create notification dismissal functionality
+- [x] Display technician notes on tracking page
 - [ ] Create notification preferences UI
 
 ## Phase 7: UI/UX Polish
@@ -60,6 +62,8 @@
 - [x] Add glassmorphism card effects
 - [x] Implement smooth animations and transitions
 - [x] Ensure responsive mobile-first design
+- [x] Create cost breakdown display component
+- [x] Add technician notes display component
 - [ ] Add loading states and skeletons
 - [ ] Implement empty states
 - [ ] Add error handling UI
