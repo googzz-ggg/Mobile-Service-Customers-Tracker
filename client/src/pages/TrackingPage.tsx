@@ -95,7 +95,7 @@ export default function TrackingPage() {
         <div className="container py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Repair Tracking</h1>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Moga Repair Tracking</h1>
               <p className="text-foreground/60">
                 Tracking Code: <span className="font-mono text-accent">{trackingCode}</span>
               </p>

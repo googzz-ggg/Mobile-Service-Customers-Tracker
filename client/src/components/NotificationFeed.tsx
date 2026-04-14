@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Bell, Trash2, CheckCircle, AlertCircle, Info } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
+import { NoNotificationsEmpty } from "./EmptyStates";
 
 interface NotificationFeedProps {
   jobId: number;
@@ -60,14 +61,7 @@ export default function NotificationFeed({ jobId }: NotificationFeedProps) {
   }
 
   if (!notifications || notifications.length === 0) {
-    return (
-      <Card className="glass-card">
-        <CardContent className="pt-6 text-center text-foreground/50">
-          <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
-          <p>No notifications yet</p>
-        </CardContent>
-      </Card>
-    );
+    return <NoNotificationsEmpty />;
   }
 
   return (

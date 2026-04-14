@@ -83,8 +83,8 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Repair Management</h1>
-            <p className="text-foreground/60 mt-1">Manage and track all repair jobs</p>
+            <h1 className="text-3xl font-bold text-foreground">Moga Repair Management</h1>
+            <p className="text-foreground/60 mt-1">Manage and track all Moga repair jobs</p>
           </div>
           <Button onClick={() => setShowCreateDialog(true)} className="gap-2">
             <Plus className="w-4 h-4" />

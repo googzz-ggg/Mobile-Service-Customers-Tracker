@@ -30,7 +30,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-blue-600 flex items-center justify-center">
               <Shield className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-foreground">Smart Service Tracker</h1>
+            <h1 className="text-xl font-bold text-foreground">Moga</h1>
           </div>
           <div className="flex items-center gap-4">
             {isAuthenticated && user ? (
@@ -61,13 +61,13 @@ export default function Home() {
         <div className="max-w-3xl mx-auto text-center mb-12">
           <Badge className="mb-4 gap-2 px-4 py-2 bg-accent/20 text-accent border-accent/30">
             <Zap className="w-3 h-3" />
-            Real-Time Device Repair Tracking
+            Moga Mobile Service
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
-            Track Your Device Repair <span className="text-accent">in Real-Time</span>
+            Track Your Device Repair <span className="text-accent">with Moga</span>
           </h2>
           <p className="text-lg text-foreground/60 mb-8">
-            Get instant updates on your device repair status, communicate with technicians, and stay informed every step of the way.
+            Get instant updates on your device repair status, communicate with our Moga technicians, and stay informed every step of the way.
           </p>
         </div>
 
@@ -123,7 +123,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-foreground/60">
-                Communicate directly with our technicians. Ask questions and get real-time updates about your repair.
+                Communicate directly with Moga technicians. Ask questions and get real-time updates about your repair.
               </p>
             </CardContent>
           </Card>
@@ -137,7 +137,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-foreground/60">
-                Scan a QR code to instantly access your repair status. Perfect for quick updates on the go.
+                Scan a Moga QR code to instantly access your repair status. Perfect for quick updates on the go.
               </p>
             </CardContent>
           </Card>
@@ -151,7 +151,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-foreground/60">
-                Get instant notifications when your device moves to the next repair stage or is ready for pickup.
+                Get instant Moga notifications when your device moves to the next repair stage or is ready for pickup.
               </p>
             </CardContent>
           </Card>
